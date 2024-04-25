@@ -463,7 +463,15 @@ def make_graph(x, y, n_clusters):
         )
     )
 
-    layout = {"xaxis": {"title": x}, "yaxis": {"title": y}}
+    if x == 'Encoded Ship Mode':
+        layout = {
+    "xaxis": {"title": x},
+    "yaxis": {"title": y},
+    "title": f"Same Day: 4,First Class: 3,Second Class: 2, <br> Standard Class: 1",  # Dynamic title based on x-axis variable
+}
+    else:
+        layout = {"xaxis": {"title": x}, "yaxis": {"title": y}}
+
 
     return go.Figure(data=data, layout=layout)
 
