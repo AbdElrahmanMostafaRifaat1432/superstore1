@@ -365,8 +365,10 @@ app.layout = dbc.Container(
                     id='store_dropdown', 
                     options=[
                         {'label': 'Best Selling & Most Profitable Category', 'value': 'Category'},
+                        {'label': 'Most Profitable Category percentage', 'value': 'perc1'},
                         {'label': 'Best Selling & Most Profitable Sub-Category', 'value': 'Sub_Category'},
                         {'label': 'Most Profitable Customer Segment', 'value': 'Segment'},
+                        {'label': 'Most Profitable Customer Segment percentage', 'value': 'perc2'},
                         {'label': 'Preferred Shipping Mode', 'value': 'Ship_Mode'},
                         {'label': 'Most Profitable Region', 'value': 'Region'},
                         {'label': 'Top 10 Cities with highest profit margin', 'value': 'City'},
@@ -547,7 +549,24 @@ def update_graph(store_dropdown ,store_dropdown2 ):
         
         return figr , return_map(store_filedf,store_dropdown2) ,return_time(df,store_dropdown2 , 0) , return_time(df,store_dropdown2 , 1) , return_time(df,store_dropdown2 , 2)
     
-    
+    elif  store_dropdown == 'perc1' or (store_dropdown == 'perc2'):
+        
+        if (store_dropdown2 != []) and (store_dropdown2 != None) :
+            dff2 = store_filedf[store_filedf['Country'].isin(store_dropdown2)]
+        else:
+            dff2 = store_filedf
+        
+        if store_dropdown == 'perc1':
+            x = 'Category'
+        else:
+            x='Segment'
+        pchart=px.pie(
+                    data_frame = dff2, 
+                    names = x, 
+                    hole=.3,
+                    template='presentation')
+            #pio.show(pchart)
+        return pchart , return_map(store_filedf,store_dropdown2) ,return_time(df,store_dropdown2 , 0) , return_time(df,store_dropdown2 , 1) , return_time(df,store_dropdown2 , 2)
     else:
 
         if (store_dropdown2 != []) and (store_dropdown2 != None) :
